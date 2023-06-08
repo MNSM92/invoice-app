@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Sidebar from "./Components.jsx/Sidebar";
 import plus from "../assets/icon-plus.svg";
 import empty from "../assets/illustration-empty.svg";
@@ -11,11 +12,13 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
-import { useEffect } from "react";
 
-function Dashboard({ isMobile }) {
+
+
+
+function Dashboard({ darkMode, setDarkMode, isMobile }) {
   const [selected, setSelected] = useState(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const filtered_data = data.filter((i) =>
     selected === null ? i.status !== "" : i.status === selected.name
@@ -24,7 +27,7 @@ function Dashboard({ isMobile }) {
   const listItems = filtered_data.map((i) => (
     <>
       {isMobile ? (
-        <button className="flex flex-row py-8 bg-white shadow rounded-lg w-full h-full">
+        <Link to="/invoice" className="flex flex-row py-8 bg-white dark:bg-black shadow rounded-lg w-full h-full">
           <div className="flex flex-col w-1/2 h-auto pl-6 justify-center">
             <p className="text-base font-bold leading-none pb-6 text-left">
               {i.order_no}
@@ -77,17 +80,17 @@ function Dashboard({ isMobile }) {
               </div>
             </div>
           </div>
-        </button>
+        </Link>
       ) : (
-        <button className="flex flex-row justify-between items-center py-4 pl-8 pr-6 bg-white shadow rounded-lg w-full h-full">
+        <Link to="/invoice" className="flex flex-row justify-between items-center dark:text-gray-50 py-4 pl-8 pr-6 bg-white dark:bg-black shadow rounded-lg w-full h-full">
           <p className="text-base font-bold leading-none">{i.order_no}</p>
           <p className="text-xs font-medium leading-none text-gray-400">
-            {i.due}
+            Due {i.due}
           </p>
           <p className="text-xs font-medium leading-none text-gray-400">
             {i.name}
           </p>
-          <p className="text-base font-bold leading-normal text-right text-gray-900">
+          <p className="text-base font-bold leading-normal text-right text-gray-900 dark:text-inherit">
             {i.price}
           </p>
           <div className="w-[104px] h-10">
@@ -95,10 +98,10 @@ function Dashboard({ isMobile }) {
               className={
                 "flex items-center justify-center flex-1 h-full px-8 py-auto rounded-md " +
                 (i.status === "Paid"
-                  ? "bg-[#F3FDFA]"
+                  ? "bg-[#F3FDFA] dark:bg-inherit"
                   : i.status === "Pending"
-                  ? "bg-orange-100"
-                  : "bg-gray-100")
+                  ? "bg-orange-100 dark:bg-opacity-20"
+                  : "bg-gray-100 dark:bg-opacity-20")
               }
             >
               <div className="flex space-x-2 items-center justify-center flex-1 h-full">
@@ -109,7 +112,7 @@ function Dashboard({ isMobile }) {
                       ? "bg-green-400"
                       : i.status === "Pending"
                       ? "bg-orange-400"
-                      : "bg-gray-400")
+                      : "bg-gray-200")
                   }
                 />
                 <p
@@ -119,7 +122,7 @@ function Dashboard({ isMobile }) {
                       ? "text-green-400"
                       : i.status === "Pending"
                       ? "text-orange-400"
-                      : "text-gray-400")
+                      : "text-gray-200")
                   }
                 >
                   {i.status}
@@ -127,8 +130,8 @@ function Dashboard({ isMobile }) {
               </div>
             </div>
           </div>
-          <p>&#62;</p>
-        </button>
+          <p className=" text-indigo-200 font-bold">&#62;</p>
+        </Link>
       )}
     </>
   ));
@@ -150,8 +153,8 @@ function Dashboard({ isMobile }) {
       key={option.id}
       className={({ active }) =>
         classNames(
-          active ? "bg-indigo-600 text-white cursor-pointer" : "text-gray-900",
-          "relative cursor-default select-none py-2 pl-10 pr-3"
+          "text-gray-900 dark:text-gray-100",
+          "relative cursor-pointer select-none py-2 pl-10 pr-3"
         )
       }
       value={option}
@@ -162,7 +165,7 @@ function Dashboard({ isMobile }) {
             <span
               className={classNames(
                 selected ? "font-semibold" : "font-normal",
-                "ml-3 block truncate"
+                "md:ml-3 block truncate md:text-base text-sm"
               )}
             >
               {option.name}
@@ -171,7 +174,7 @@ function Dashboard({ isMobile }) {
 
           <span
             className={classNames(
-              active ? "text-white" : "text-indigo-600",
+              "text-indigo-600 dark:text-indigo-600",
               "absolute inset-y-0 left-0 flex items-center pl-4"
             )}
           >
@@ -211,15 +214,15 @@ function Dashboard({ isMobile }) {
 
   return (
     <>
-      <div className="w-full h-full">
-        <div className="absolute top-0 left-0 w-full h-full bg-[#F8F8FB]">
-          <div className="flex flex-col space-y-4 justify-between absolute lg:w-[730px] md:w-[87.5%] w-[87.2%] h-auto lg:left-[355px] md:left-[6.5%] left-[6.4%] lg:top-[196px] md:top-[251px] top-[180px]">
+      {/* <div className="w-full min-h-auto"> */}
+        <div className="absolute top-0 left-0 w-full min-h-full bg-[#F8F8FB] dark:bg-black">
+          <div className="flex flex-col space-y-4 justify-between relative lg:w-[730px] md:w-[87.5%] w-[87.2%] h-auto lg:left-[355px] md:left-[6.5%] left-[6.4%] lg:top-[196px] lg:mb-[250px] md:top-[251px] md:mb-[270px] top-[180px] mb-[220px]">
             {filtered_data.length > 0 ? listItems : emptyData}
-          </div>
-
+          </div> 
+          
           <div className="flex justify-between absolute lg:w-[730px] md:w-[87.5%] w-[87.2%] h-[55px] lg:left-[355px] md:left-[6.5%] left-[6.4%] xl:top-[77px] md:top-[141px] top-[104px]">
-            <div className="flex flex-col justify-between h-full w-[135px]">
-              <p className="text-4xl font-bold">Invoices</p>
+            <div className="flex flex-col justify-between h-full w-[135px] dark:text-gray-200">
+              <p className="md:text-4xl text-2xl font-bold">Invoices</p>
               <p className="text-[11px]">There are 7 total invoices.</p>
             </div>
             <div className="flex flex-row space-x-2 w-auto h-full">
@@ -228,15 +231,15 @@ function Dashboard({ isMobile }) {
                   {({ open }) => (
                     <>
                       <div className="relative">
-                        <Listbox.Button className="relative group w-full cursor-pointer rounded-md bg-gray-50 py-1.5 pl-3 pr-10 text-left text-gray-900 font-bold">
+                        <Listbox.Button className="relative group w-full cursor-pointer rounded-md bg-gray-50 dark:bg-black py-1.5 pl-3 pr-10 text-left text-gray-900 dark:text-gray-200 font-bold">
                           <span className="flex items-center">
                             <span className="ml-3 block truncate">
-                              Filter by status
+                              {isMobile?"Filter":"Filter by status"}
                             </span>
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
                             <ChevronDownIcon
-                              className="h-5 w-5 text-indigo-600"
+                              className="h-5 w-5 text-indigo-400"
                               aria-hidden="true"
                             />
                           </span>
@@ -249,7 +252,7 @@ function Dashboard({ isMobile }) {
                           leaveFrom="opacity-100"
                           leaveTo="opacity-0"
                         >
-                          <Listbox.Options className="absolute z-10 mt-1 h-auto w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                          <Listbox.Options className="absolute z-10 mt-1 h-auto w-full overflow-auto rounded-md bg-white dark:bg-black py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                             {detail}
                           </Listbox.Options>
                         </Transition>
@@ -259,7 +262,7 @@ function Dashboard({ isMobile }) {
                 </Listbox>
               </div>
 
-              <button onClick={()=>setOpen(true)} className="flex justify-between items-center h-[48px] w-auto rounded-full bg-[#7C5DFA]">
+              <button onClick={()=>setOpen(true)} className="flex justify-between items-center h-[48px] w-auto rounded-full bg-indigo-secondary hover:bg-indigo-primary ">
                 <div className="flex w-8 h-8 ml-2 rounded-full overflow-hidden bg-white justify-center items-center">
                   <img src={plus} alt="moon" className="w-[10px] h-[10px]" />
                 </div>
@@ -268,9 +271,9 @@ function Dashboard({ isMobile }) {
                 </p>
               </button>
             </div>
-          </div>
+          {/* </div> */}
         </div>
-        <Sidebar />
+        <Sidebar darkMode={darkMode} setDarkMode={setDarkMode}/>
         
       </div>
       <SlideOver open={open} setOpen={setOpen} />

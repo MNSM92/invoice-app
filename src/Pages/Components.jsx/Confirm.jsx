@@ -31,7 +31,7 @@ export default function Confirm({isOpen, setIsOpen}){
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <Dialog.Panel className="w-full max-w-[480px] transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
+                        <Dialog.Panel className="w-full max-w-[480px] transform overflow-hidden rounded-md bg-white dark:bg-black p-6 text-left align-middle shadow-xl transition-all">
                         <Dialog.Title
                             as="h3"
                             className="text-lg leading-6 text-black font-bold"
@@ -47,14 +47,14 @@ export default function Confirm({isOpen, setIsOpen}){
                         <div className="flex flex-row justify-end space-x-4 mt-8">
                             <button
                             type="button"
-                            className="inline-flex justify-center rounded-full border border-transparent bg-gray-100 px-6 py-3 text-sm font-bold text-gray-700 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            className="inline-flex justify-center rounded-full border border-transparent bg-gray-100 hover:bg-slate-secondary px-6 py-3 text-sm font-bold text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             onClick={()=>setIsOpen(false)}
                             >
                             Cancel
                             </button>
                             <button
                             type="button"
-                            className="inline-flex justify-center rounded-full border border-transparent bg-orange-500 px-6 py-3 text-sm font-bold text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            className="inline-flex justify-center rounded-full border border-transparent bg-red-secondary hover:bg-red-primary px-6 py-3 text-sm font-bold text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             onClick={()=>setIsOpen(false)}
                             >
                             Delete
